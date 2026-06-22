@@ -1,0 +1,44 @@
+package com.dheeraj.aa.service;
+
+import com.dheeraj.aa.dto.LoginRequest;
+import com.dheeraj.aa.dto.RegisterRequest;
+import com.dheeraj.aa.entity.User;
+import com.dheeraj.aa.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
+
+@Service
+@RequiredArgsConstructor
+public class AuthService {
+
+    private final UserRepository userRepository;
+    private final BCryptPasswordEncoder encoder;
+
+    public User register(RegisterRequest request) {
+
+        User user = User.builder()
+                .name(request.getName())
+                .email(request.getEmail())
+                .password(encoder.encode(request.getPassword()))
+                .role("USER")
+                .build();
+
+        return userRepository.save(user);
+    }
+
+    public boolean login(LoginRequest request) {
+
+        User user = userRepository.findByEmail(request.getEmail())
+                .orElse(null);
+
+        if (user == null) {
+            return false;
+        }
+
+        return encoder.matches(
+                request.getPassword(),
+                user.getPassword()
+        );
+    }
+}
