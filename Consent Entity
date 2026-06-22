@@ -1,0 +1,26 @@
+package com.dheeraj.aa.entity;
+
+import jakarta.persistence.*;
+import lombok.*;
+
+@Entity
+@Table(name = "consents")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class Consent {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String consentId;
+
+    private String customerId;
+
+    private String purpose;
+
+    private String status;
+}
