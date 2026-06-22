@@ -1,0 +1,51 @@
+package com.dheeraj.aa.controller;
+
+import com.dheeraj.aa.dto.LoginRequest;
+import com.dheeraj.aa.dto.RegisterRequest;
+import com.dheeraj.aa.entity.User;
+import com.dheeraj.aa.service.AuthService;
+import jakarta.servlet.http.HttpSession;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/api/auth")
+@RequiredArgsConstructor
+@CrossOrigin(origins = "*")
+public class AuthController {
+
+    private final AuthService authService;
+
+    @PostMapping("/register")
+    public User register(@RequestBody RegisterRequest request) {
+        return authService.register(request);
+    }
+
+    @PostMapping("/login")
+    public String login(
+            @RequestBody LoginRequest request,
+            HttpSession session) {
+
+        boolean success = authService.login(request);
+
+        if(success){
+
+            session.setAttribute(
+                    "userEmail",
+                    request.getEmail()
+            );
+
+            return "Login Successful";
+        }
+
+        return "Invalid Credentials";
+    }
+
+    @PostMapping("/logout")
+    public String logout(HttpSession session){
+
+        session.invalidate();
+
+        return "Logged Out";
+    }
+}
