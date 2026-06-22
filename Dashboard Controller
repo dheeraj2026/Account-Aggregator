@@ -1,0 +1,20 @@
+package com.dheeraj.aa.controller;
+
+import com.dheeraj.aa.service.GenAIService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/api/dashboard")
+@RequiredArgsConstructor
+public class DashboardController {
+
+    private final GenAIService genAIService;
+
+    @GetMapping("/summary")
+    public String summary() {
+
+        return genAIService
+                .generateFinancialSummary();
+    }
+}
