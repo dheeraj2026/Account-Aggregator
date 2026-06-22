@@ -1,0 +1,23 @@
+package com.dheeraj.aa.controller;
+
+import com.dheeraj.aa.dto.CreateConsentRequest;
+import com.dheeraj.aa.entity.Consent;
+import com.dheeraj.aa.service.ConsentService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/api/consents")
+@RequiredArgsConstructor
+public class ConsentController {
+
+    private final ConsentService service;
+
+    @PostMapping
+    public Consent create(
+            @RequestBody
+            CreateConsentRequest request){
+
+        return service.createConsent(request);
+    }
+}
