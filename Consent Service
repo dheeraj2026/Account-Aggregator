@@ -1,0 +1,34 @@
+package com.dheeraj.aa.service;
+
+import com.dheeraj.aa.dto.CreateConsentRequest;
+import com.dheeraj.aa.entity.Consent;
+import com.dheeraj.aa.repository.ConsentRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.util.UUID;
+
+@Service
+@RequiredArgsConstructor
+public class ConsentService {
+
+    private final ConsentRepository repository;
+
+    public Consent createConsent(
+            CreateConsentRequest request){
+
+        Consent consent =
+                Consent.builder()
+                        .consentId(
+                                UUID.randomUUID()
+                                        .toString())
+                        .customerId(
+                                request.getCustomerId())
+                        .purpose(
+                                request.getPurpose())
+                        .status("PENDING")
+                        .build();
+
+        return repository.save(consent);
+    }
+}
