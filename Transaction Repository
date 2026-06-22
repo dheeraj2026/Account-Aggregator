@@ -1,0 +1,8 @@
+package com.dheeraj.aa.repository;
+
+import com.dheeraj.aa.entity.Transaction;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface TransactionRepository
+        extends JpaRepository<Transaction, Long> {
+}
